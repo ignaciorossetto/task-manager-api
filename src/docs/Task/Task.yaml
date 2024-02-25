@@ -1,0 +1,96 @@
+paths:
+  /api/task:
+    get:
+      summary: Fetch all tasks
+      tags:
+        - Task
+      responses:
+        "200":
+          description: Tasks fetch succeded.
+          content:
+            application/json:
+              schema:
+                type: Array<ITask>
+                items:
+                  $ref: '#components/schemas/Task'
+        "500": 
+          description: Server connection error // DB Error
+    post:
+      summary: Adds a task into the db.
+      tags:
+        - Task
+      responses:
+        "200": 
+          description: Task added succesfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#components/schemas/Task'
+        "404":
+          description: Se intento crear un producto sin estar identificado.
+        "500":
+          description: Error del servidor, revisar req.body.
+    delete:
+      summary: Borra todos los productos. Para poder hacerlo, el usuario debe ser admin.
+      tags:
+        - Task
+      responses:
+        "200": 
+          description: Borra todos los productos exitosamente.
+        "500":
+          description: Error del servidor.
+  /api/task/{id}:
+    get:
+      summary: Obtiene un solo producto
+      tags:
+        - Task
+      parameters:
+      - name: id
+        in: path
+        required: true
+        desccription: ID del producto
+        schema:
+          $type: String
+      responses:
+        "200":
+          description: el producto fueron enviados exitosamente.
+          content:
+            application/json:
+              schema:
+                type: object
+                items:
+                  $ref: '#components/schemas/Task'
+        "500": 
+          description: Hubo un error en la llamada al servidor. Ya que no hay queries.
+    put:
+      summary: Modifica un producto. Se debe ser admin o dueño del producto.
+      tags: 
+        - Task
+      responses:
+        "200": 
+          description: El producto se actualizo correctamente.
+        "500": 
+          description: Error del servidor. O se intento cambiar algun dato inmutable.
+    delete:
+      summary: Borra el producto. Para poder hacerlo, el usuario debe ser admin o dueño del producto y estar logeado.
+      tags:
+        - Task
+      responses:
+        "200": 
+          description: El producto se borro exitosamente.
+        "500":
+          description: Error del servidor.
+comonents:
+  schemas:
+    Tasks:
+      type: ITask
+      properties:
+        _id: Types.ObjectId
+        title: string
+        description: string
+        completed?: boolean
+        ownerId: Types.ObjectId
+
+
