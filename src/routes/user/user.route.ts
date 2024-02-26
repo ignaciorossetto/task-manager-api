@@ -10,6 +10,7 @@ import {
   updateUser,
 } from "../../controllers/user.controller";
 import { idParserMiddleware } from "../../middleware/general.middleware";
+import { jwtUserAuthMiddleware } from "../../middleware/auth/auth.middleware";
 
 const router = Router();
 
@@ -19,7 +20,7 @@ router.get("/", getAllUsers);
 
 /** Update ONLY fullname (by USER)*/
 //missing jwt user role 0 middleware
-router.get("/:id", idParserMiddleware, getOneUser);
+router.get("/:id", idParserMiddleware, jwtUserAuthMiddleware, getOneUser);
 
 /** Update ONLY fullname (by USER)*/
 //missing jwt user role 0 middleware

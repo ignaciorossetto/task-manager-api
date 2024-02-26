@@ -2,7 +2,7 @@ import { Router } from "express";
 import {
   addOneTask,
   deleteOneTask,
-  getAllTasks,
+  getAllTasksFromUser,
   getOneTask,
   toggleCompletedTask,
   updateTask,
@@ -12,25 +12,42 @@ import {
   newTaskParserMiddleware,
 } from "../../middleware/task/taskParser.middleware";
 import { idParserMiddleware } from "../../middleware/general.middleware";
+import { jwtUserAuthMiddleware } from "../../middleware/auth/auth.middleware";
 
 const router = Router();
 
 /* GET ALL TASKS */
-router.get("/", getAllTasks);
+router.get(
+  "/:id",
+  idParserMiddleware,
+  jwtUserAuthMiddleware,
+  getAllTasksFromUser
+);
 
 /* GET ONE TASKS */
-router.get("/:id", idParserMiddleware, getOneTask);
+router.get("/one/:id", idParserMiddleware, jwtUserAuthMiddleware, getOneTask);
 
 /** POST NEW TASK */
-router.post("/", newTaskParserMiddleware, addOneTask);
+router.post("/", newTaskParserMiddleware, jwtUserAuthMiddleware, addOneTask);
 
 /* UPDATE ONE TASKS (TITLE/DESCRIPTION) */
-router.put("/:id", idParserMiddleware, fieldsParserMiddleware, updateTask);
+router.put(
+  "/:id",
+  idParserMiddleware,
+  fieldsParserMiddleware,
+  jwtUserAuthMiddleware,
+  updateTask
+);
 
 /* UPDATE ONE TASKS (TOGGLE COMPLETE ATTRIBUTE)*/
-router.put("/toggle-complete/:id", idParserMiddleware, toggleCompletedTask);
+router.put(
+  "/toggle-complete/:id",
+  idParserMiddleware,
+  jwtUserAuthMiddleware,
+  toggleCompletedTask
+);
 
 /* DELETE ONE TASKS */
-router.delete("/:id", idParserMiddleware, deleteOneTask);
+router.delete("/:id", idParserMiddleware, jwtUserAuthMiddleware, deleteOneTask);
 
 export default router;

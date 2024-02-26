@@ -2,14 +2,18 @@ import { NextFunction, Request, Response } from "express";
 import * as taskService from "../services/task.service";
 // import { toNewTaskNoId } from "../utils/utils";
 import { ITask } from "../types";
+import { Types } from "mongoose";
 
-export const getAllTasks = async (
-  _: Request,
+export const getAllTasksFromUser = async (
+  req: Request,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
   try {
-    const tasks = await taskService.fetchAllTasks();
+    const id: unknown = req.params.id;
+    const tasks = await taskService.fetchAllTasks({
+      ownerId: id as Types.ObjectId,
+    });
     res.json({
       status: "OK",
       payload: tasks,
@@ -74,7 +78,6 @@ export const updateTask = async (
       payload: updatedTask,
     });
   } catch (error) {
-    console.log("error");
     next(error);
   }
 };

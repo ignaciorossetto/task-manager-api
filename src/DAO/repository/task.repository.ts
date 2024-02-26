@@ -19,9 +19,12 @@ const connectToDatabase = async () => {
   }
 };
 
-export const getAllTasks = async (): Promise<ITask[]> => {
+export const getAllTasks = async (
+  _filter: Partial<ITask>
+): Promise<ITask[]> => {
   await connectToDatabase();
-  return TaskModel.find().exec();
+  const filter = _filter ? _filter : {};
+  return TaskModel.find(filter).lean().exec();
 };
 
 export const getOneTask = async (taskId: string): Promise<ITask | null> => {

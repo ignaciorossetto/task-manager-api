@@ -1,6 +1,5 @@
 import swaggerJSDoc from "swagger-jsdoc";
 
-console.log(__dirname);
 const swaggerOptions: swaggerJSDoc.Options = {
   definition: {
     info: {

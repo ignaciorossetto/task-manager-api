@@ -7,6 +7,7 @@ import {
 } from "../DAO/repository/user.repository";
 import createCustomError from "../utils/error";
 import { Types } from "mongoose";
+import { isValidPassword } from "../utils/utils";
 
 export const fetchAllUsers = async (): Promise<IUser[]> => {
   return getAllUsers();
@@ -30,6 +31,34 @@ export const fetchOneUserById = async (
       name: "User already registered",
       code: 404,
       message: `Try with an other email`,
+      layer: "Service",
+      status: "Error",
+    });
+  }
+  const { password, ...other } = user;
+  return other;
+};
+
+export const fetchUserAtLogin = async (
+  email: string,
+  pass: string
+): Promise<Partial<IUser>> => {
+  const user = await getOneUser({ email: email });
+  if (!user) {
+    throw createCustomError({
+      name: "Bad login attempt",
+      code: 404,
+      message: `Invalid email or password`,
+      layer: "Service",
+      status: "Error",
+    });
+  }
+  const validPassword = isValidPassword(user, pass);
+  if (!validPassword) {
+    throw createCustomError({
+      name: "Bad login attempt",
+      code: 404,
+      message: `Invalid email or password`,
       layer: "Service",
       status: "Error",
     });

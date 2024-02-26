@@ -8,8 +8,10 @@ import {
 } from "../DAO/repository/task.repository";
 import createCustomError from "../utils/error";
 
-export const fetchAllTasks = async (): Promise<ITask[]> => {
-  return getAllTasks();
+export const fetchAllTasks = async (
+  filter: Partial<ITask>
+): Promise<ITask[]> => {
+  return getAllTasks(filter);
 };
 
 export const fetchOneTask = async (id: string): Promise<ITask | null> => {

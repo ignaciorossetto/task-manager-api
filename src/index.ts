@@ -10,8 +10,6 @@ import swaggerUiExpress from "swagger-ui-express";
 const PORT = config.port;
 const app = express();
 
-console.log(__dirname);
-
 /**Express server config */
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
