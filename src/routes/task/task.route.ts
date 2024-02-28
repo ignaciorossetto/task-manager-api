@@ -18,7 +18,7 @@ const router = Router();
 
 /* GET ALL TASKS */
 router.get(
-  "/:id",
+  "/all/:id",
   idParserMiddleware,
   jwtUserAuthMiddleware,
   getAllTasksFromUser

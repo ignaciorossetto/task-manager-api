@@ -1,7 +1,11 @@
 import { CorsOptions } from "cors";
 import config from "./envConfig";
 
-const allowedOrigins = [config.frontEndUrl, "http://localhost:3000"];
+const allowedOrigins = [
+  config.frontEndUrl,
+  "http://localhost:3000",
+  "http://localhost:5173",
+];
 
 export const corsOptions: CorsOptions = {
   origin: (origin, callback) => {
