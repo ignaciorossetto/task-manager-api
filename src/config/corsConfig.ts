@@ -5,6 +5,7 @@ const allowedOrigins = [
   config.frontEndUrl,
   "http://localhost:3000",
   "http://localhost:5173",
+  "https://task-manager-six-sand.vercel.app",
 ];
 
 export const corsOptions: CorsOptions = {
